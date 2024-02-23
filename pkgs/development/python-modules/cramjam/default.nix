@@ -18,19 +18,40 @@
 
 buildPythonPackage rec {
   pname = "cramjam";
-  version = "2.6.2.post1";
+  version = "2.8.1";
   format = "pyproject";
 
   src = fetchFromGitHub {
     owner = "milesgranger";
     repo = "pyrus-cramjam";
     rev = "refs/tags/v${version}";
-    hash = "sha256-KU1JVNEQJadXNiIWTvI33N2NSq994xoKxcAGGezFjaI=";
+    hash = "sha256-uYPuEUFbNVHuyzoh9cM/SZSItgtob+H5z3lYaMSCErc=";
   };
+
+  cargoRoot = "cramjam-python";
+  buildAndTestSubdir = "cramjam-python";
+
+  preBuild = ''
+    cargo metadata --offline # https://github.com/NixOS/nixpkgs/issues/261412
+    sed -i Cargo.toml -e '/\[workspace\]/aresolver = "2"'
+    _cargoRoot="$cargoRoot"
+    cargoRoot=""
+  '';
+
+  postBuild = ''
+    cargoRoot="$_cargoRoot"
+    unset _cargoRoot
+  '';
 
   cargoDeps = rustPlatform.fetchCargoTarball {
     inherit src;
-    hash = "sha256-w1bEf+etLgR/YOyLmC3lFtO9fqAx8z2aul/XIKUQb5k=";
+    sourceRoot = "${src.name}/${cargoRoot}";
+    # https://github.com/milesgranger/cramjam/pull/140
+    preBuild = ''
+      chmod -R +w ../
+      sed -i ../Cargo.toml -e '/\[workspace\]/aresolver = "2"'
+    '';
+    hash = "sha256-fm/OGG/Ih5eBMEfnteK5XdFnsc/2PH4p+dgmkWB/Ro0=";
   };
 
   nativeBuildInputs = with rustPlatform; [
@@ -53,13 +74,21 @@ buildPythonPackage rec {
     zstd
   ];
 
+  disabledTestPaths = [
+    "benchmarks/test_bench.py"
+  ];
+
   pytestFlagsArray = [
     "--benchmark-disable"
   ];
 
-  disabledTestPaths = [
-    "benchmarks/test_bench.py"
-  ];
+  preCheck = ''
+    pushd "$cargoRoot"
+  '';
+
+  postCheck = ''
+    popd
+  '';
 
   pythonImportsCheck = [
     "cramjam"
