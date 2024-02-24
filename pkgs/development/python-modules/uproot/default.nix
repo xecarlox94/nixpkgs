@@ -3,6 +3,8 @@
 , fetchFromGitHub
 , pythonOlder
 , awkward
+, cramjam
+, dask-awkward
 , hatch-vcs
 , hatchling
 , numpy
@@ -10,17 +12,15 @@
 , packaging
 , pandas
 , pytestCheckHook
-, lz4
 , pytest-timeout
 , rangehttpserver
 , scikit-hep-testdata
 , xxhash
-, zstandard
 }:
 
 buildPythonPackage rec {
   pname = "uproot";
-  version = "5.2.2";
+  version = "5.3.1";
   pyproject = true;
 
   disabled = pythonOlder "3.8";
@@ -29,7 +29,7 @@ buildPythonPackage rec {
     owner = "scikit-hep";
     repo = "uproot5";
     rev = "refs/tags/v${version}";
-    hash = "sha256-7X8oIMvOSC1JXQrZTPXLiqsUnfSc2Rx3KCvxKbhvPzM=";
+    hash = "sha256-cZVdsemaA3ni6xFfrkyLJA+12B7vyURj9OYVuOhqTXU=";
   };
 
   nativeBuildInputs = [
@@ -39,20 +39,20 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [
     awkward
+    cramjam
     numpy
     fsspec
     packaging
   ];
 
   nativeCheckInputs = [
+    dask-awkward
     pandas
     pytestCheckHook
-    lz4
     pytest-timeout
     rangehttpserver
     scikit-hep-testdata
     xxhash
-    zstandard
   ];
 
   preCheck = ''
