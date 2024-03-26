@@ -21329,6 +21329,12 @@
     githubId = 529003;
     name = "Christine Dodrill";
   };
+  xecarlox94 = {
+    email = "jf94.uk@gmail.com";
+    github = "xecarlox94";
+    githubId = 25333801;
+    name = "Jose Fernandes";
+  };
   xeji = {
     email = "xeji@cat3.de";
     github = "xeji";
