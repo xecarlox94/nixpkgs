@@ -15,7 +15,8 @@ buildGoModule rec {
         hash    = "sha256-LW6UKEF9txWXyVP2deRiWFuNqfNTp0ZfXZs+n+TbAZc=";
     };
 
-    vendorHash = null;
+    deleteVendor = true;
+    #proxyVendor = true;
 
     #outputs = [ "docker" ];
 
@@ -23,7 +24,7 @@ buildGoModule rec {
         description = "p2p network to enable running distributed computation and rendering";
         homepage    = "https://p2prc.akilan.io/";
         license     = lib.licenses.gpl2;
-        maintainers = with lib.maintainers; [];
+        maintainers = with lib.maintainers; [ xecarlox94 ];
     };
 
 }
