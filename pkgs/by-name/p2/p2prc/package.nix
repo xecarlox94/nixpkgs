@@ -1,12 +1,10 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-}:
+with import <nixpkgs> {};
 
-buildGoModule rec {
+buildGoPackage rec {
 
     pname = "p2prc";
     version = "2.0.0";
+    goPackagePath = "github.com/Akilan1999/p2p-rendering-computation";
 
     src = fetchFromGitHub {
         owner   = "akilan1999";
@@ -15,7 +13,7 @@ buildGoModule rec {
         # hash    = "sha256-LW6UKEF9txWXyVP2deRiWFuNqfNTp0ZfXZs+n+TbAZc=";
     };
 
-    vendorHash = lib.fakeHash;
+    #vendorHash = lib.fakeHash;
     #outputs = [ "docker" ];
 
     meta = with lib; {
@@ -25,5 +23,4 @@ buildGoModule rec {
         license     = lib.licenses.gpl2;
         maintainers = with lib.maintainers; [ xecarlox94 ];
     };
-
 }
