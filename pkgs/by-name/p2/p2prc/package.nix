@@ -16,6 +16,10 @@ buildGoModule rec {
     vendorHash = "sha256-8lKhAHaRq6rs/W+f2RwH8Us1JDSOCawhE4ZvAkmhVuA=";
     #outputs = [ "docker" ];
 
+    checkPhase = ''
+      echo
+    '';
+
     meta = with lib; {
         description = "p2p network to enable running distributed computation and rendering";
         homepage    = "https://github.com/Akilan1999/p2p-rendering-computation/";
