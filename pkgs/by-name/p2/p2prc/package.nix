@@ -30,10 +30,9 @@ buildGoModule rec {
 
     fixupPhase=''
         cd $out
-        echo "running file"
         $out/bin/p2p-rendering-computation --dc
-        echo $PWD
-        echo "after running file"
+        sed -i "s\localhost\SIUUUU\g" config.json
+        cd $OLDPWD
     '';
 }
 
