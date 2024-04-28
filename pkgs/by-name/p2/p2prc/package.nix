@@ -27,5 +27,13 @@ buildGoModule rec {
         license     = lib.licenses.gpl2;
         maintainers = with lib.maintainers; [ xecarlox94 ];
     };
+
+    fixupPhase=''
+        cd $out
+        echo "running file"
+        $out/bin/p2p-rendering-computation --dc
+        echo $PWD
+        echo "after running file"
+    '';
 }
 
