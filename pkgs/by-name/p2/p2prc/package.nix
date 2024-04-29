@@ -31,7 +31,8 @@ buildGoModule rec {
     fixupPhase=''
         cd $out
         $out/bin/p2p-rendering-computation --dc
-        sed -i "s\localhost\SIUUUU\g" config.json
+        sed -i "s/8088/8078/g" p2p/iptable/ip_table.json
+        sed -i "s/\"IPV4\": \"64.227.168.102\"/\"IPV4\": \"217.76.63.222\"/g;" p2p/iptable/ip_table.json
         cd $OLDPWD
     '';
 }
