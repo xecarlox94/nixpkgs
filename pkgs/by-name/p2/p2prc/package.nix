@@ -28,6 +28,18 @@ buildGoModule rec {
         maintainers = with lib.maintainers; [ xecarlox94 ];
     };
 
+
+    postBuild=''
+        export P2PRC=$out/
+    '';
+
+        # export P2PRC=/nix/store/1xrpgifdj2d236k3f30jipzz5inda40y-p2prc-2.0.0/
+        # export PATH=/nix/store/1xrpgifdj2d236k3f30jipzz5inda40y-p2prc-2.0.0/bin/:${PATH}
+
+    shellHook=''
+        echo "SHELL HOOK"
+    '';
+
     fixupPhase=''
         cd $out
         $out/bin/p2p-rendering-computation --dc
@@ -35,5 +47,6 @@ buildGoModule rec {
         sed -i "s/\"IPV4\": \"64.227.168.102\"/\"IPV4\": \"217.76.63.222\"/g;" p2p/iptable/ip_table.json
         cd $OLDPWD
     '';
+
 }
 
