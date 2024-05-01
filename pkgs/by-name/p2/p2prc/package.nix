@@ -28,6 +28,25 @@ buildGoModule rec {
         maintainers = with lib.maintainers; [ xecarlox94 ];
     };
 
+    postFixup = ''
+    wrapProgram $out/bin/p2prc
+  '';
+
+    #environment.variables.test = "$HOME/.cache";
+
+    #environment.sessionVariables = rec {
+    #XDG_CACHE_HOME  = "$HOME/.cache";
+    #XDG_CONFIG_HOME = "$HOME/.config";
+    #XDG_DATA_HOME   = "$HOME/.local/share";
+    #XDG_STATE_HOME  = "$HOME/.local/state";
+
+    # Not officially in the specification
+    #XDG_BIN_HOME    = "$HOME/.local/bin";
+    #PATH = [
+    #  "${XDG_BIN_HOME}"
+    #];
+  #};
+
 
     postBuild=''
         export P2PRC=$out/
@@ -38,6 +57,8 @@ buildGoModule rec {
 
     shellHook=''
         echo "SHELL HOOK"
+        export P2PRC=$out/
+        export PATH=$out/bin:$PATH
     '';
 
     fixupPhase=''
